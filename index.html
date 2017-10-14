@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Keyboard Piano</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="black-keys">
+    <div data-key="87" class="black-key">
+      <kbd>W</kbd>
+      <span class="sound">c1s</span>
+    </div>
+    <div data-key="69" class="black-key">
+      <kbd>E</kbd>
+      <span class="sound">d1s</span>
+    </div>
+
+    <div class="blank-key">
+    </div>
+
+    <div data-key="84" class="black-key">
+      <kbd>T</kbd>
+      <span class="sound">f1s</span>
+    </div>
+    <div data-key="89" class="black-key">
+      <kbd>Y</kbd>
+      <span class="sound">g1s</span>
+    </div>
+    <div data-key="85" class="black-key">
+      <kbd>U</kbd>
+      <span class="sound">a1s</span>
+    </div>
+
+    <div class="blank-key">
+    </div>
+
+  </div>
+
+
+  <div class="white-keys">
+    <div data-key="65" class="white-key">
+      <kbd>A</kbd>
+      <span class="sound">c1</span>
+    </div>
+    <div data-key="83" class="white-key">
+      <kbd>S</kbd>
+      <span class="sound">d1</span>
+    </div>
+    <div data-key="68" class="white-key">
+      <kbd>D</kbd>
+      <span class="sound">e1</span>
+    </div>
+    <div data-key="70" class="white-key">
+      <kbd>F</kbd>
+      <span class="sound">f1</span>
+    </div>
+    <div data-key="71" class="white-key">
+      <kbd>G</kbd>
+      <span class="sound">g1</span>
+    </div>
+    <div data-key="72" class="white-key">
+      <kbd>H</kbd>
+      <span class="sound">a1</span>
+    </div>
+    <div data-key="74" class="white-key">
+      <kbd>J</kbd>
+      <span class="sound">b1</span>
+    </div>
+    <div data-key="75" class="white-key">
+      <kbd>K</kbd>
+      <span class="sound">c2</span>
+    </div>
+  </div>
+
+
+  </div>
+
+  <audio data-key="65" src="sounds/c1.wav"></audio>
+  <audio data-key="83" src="sounds/d1.wav"></audio>
+  <audio data-key="68" src="sounds/e1.wav"></audio>
+  <audio data-key="70" src="sounds/f1.wav"></audio>
+  <audio data-key="71" src="sounds/g1.wav"></audio>
+  <audio data-key="72" src="sounds/a1.wav"></audio>
+  <audio data-key="74" src="sounds/b1.wav"></audio>
+  <audio data-key="75" src="sounds/c2.wav"></audio>
+  <audio data-key="87" src="sounds/c1s.wav"></audio>
+  <audio data-key="69" src="sounds/d1s.wav"></audio>
+  <audio data-key="84" src="sounds/f1s.wav"></audio>
+  <audio data-key="89" src="sounds/g1s.wav"></audio>
+  <audio data-key="85" src="sounds/a1s.wav"></audio>
+
+<script>
+   
+  function playSound(e) {
+    const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+    const key = document.querySelector(`.black-key[data-key="${e.keyCode}"], .white-key[data-key="${e.keyCode}"]`);
+
+    if (!audio) return; // don't do anything
+
+    audio.currentTime = 0; // rewind to start
+    audio.play();
+
+    key.classList.add('playing');
+  }
+
+  function removeTransition(e) {
+    if(e.propertyName !== 'transform') return; // skip if it's not a transform
+    this.classList.remove('playing');
+  }
+
+  const keys1 = document.querySelectorAll('.white-key');
+  keys1.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  const keys2 = document.querySelectorAll('.black-key');
+  keys2.forEach(key => key.addEventListener('transitionend', removeTransition));
+
+  window.addEventListener('keydown', playSound);  
+</script>
+
+
+</body>
+</html>
